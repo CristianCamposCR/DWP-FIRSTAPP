@@ -12,7 +12,44 @@ const router = new VueRouter({
     {
       path: '/',
       name: 'home',
-      component: HomeView
+      component: HomeView,
+      redirect: 'land-page',
+      children: [
+        {
+          path: '/land-page',
+          name: 'LandPage',
+          component: () => import('../views/LandPage.vue')
+        },
+        {
+          path: '/rent-your-space',
+          name: 'RentYourSpace',
+          component: () => import('../views/RentYourSpace.vue')
+        },
+        {
+          path: '/your-info-space',
+          name: 'YourInfoSpace',
+          component: () => import('../views/YourInfoSpace.vue')
+        },
+        {
+          path: '/offer-your-space',
+          name: 'OfferYourSpace',
+          component: () => import('../views/OfferYourSpace.vue')
+        },
+        {
+          path: '/rent-space',
+          name: 'RentSpace',
+          component: () => import('../views/RentSpace.vue')
+        },
+        {
+          path: '/catalogue-space',
+          name: 'CatalogueSpace',
+          component: () => import('../views/CatalogueSpace.vue')
+        }, {
+          path: '/space-details',
+          name: 'SpaceDetails',
+          component: () => import('../views/SpaceDetails.vue')
+        },
+      ]
     },
     {
       path: '/about',
