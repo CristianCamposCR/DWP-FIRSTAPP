@@ -229,13 +229,43 @@
               multiple
               placeholder="Selecciona un archivo"
               browse-text="Buscar"
+              accept="image/png"
+              @change="handleFile"
+              :state="fileState"
+              @blur="handleFile"
             ></b-form-file>
+            <b-form-invalid-feedback v-if="fileTypeError"
+              >Tipo de archivo incorrecto</b-form-invalid-feedback
+            >
+            <b-form-invalid-feedback v-else-if="fileSizeError"
+              >El archivo debe tener un tamaño menor a
+              3MB</b-form-invalid-feedback
+            >
+            <b-form-invalid-feedback v-else-if="noneFileError"
+              >Campo obligatori</b-form-invalid-feedback
+            >
           </b-form-group>
         </b-col>
       </b-row>
       <b-row class="mt-4">
         <b-col cols="12" sm="12" class="d-flex flex-row-reverse">
-          <b-button variant="secondary"> Enviar </b-button>
+          <b-button
+            variant="success"
+            :disabled="
+              v$.name.$invalid ||
+              v$.surname.$invalid ||
+              v$.lastname.$invalid ||
+              v$.street.$invalid ||
+              v$.number.$invalid ||
+              v$.city.$invalid ||
+              v$.birthday.$invalid ||
+              v$.email.$invalid ||
+              v$.phone.$invalid ||
+              !fileState
+            "
+          >
+            Enviar
+          </b-button>
         </b-col>
       </b-row>
     </b-form>
@@ -245,7 +275,7 @@
 <script>
 import Vue from "vue";
 import { useVuelidate } from "@vuelidate/core";
-import { required, email } from "@vuelidate/validators";
+import { required } from "@vuelidate/validators";
 export default Vue.extend({
   name: "FormValidation",
   setup() {
@@ -264,6 +294,10 @@ export default Vue.extend({
       email: "",
       photo: "",
       phone: "",
+      fileSizeError: false,
+      fileTypeError: false,
+      noneFileError: false,
+      fileState: null,
     };
   },
   methods: {
@@ -275,6 +309,43 @@ export default Vue.extend({
         event.preventDefault(); // Previene la acción predeterminada del evento
         return false; // Rechazar cualquier otro carácter
       }
+    },
+    fileSize(event) {
+      const file = event.target.files[0];
+      if (file) {
+        this.noneFileError = false;
+        if (file.size > 3 * 1024 * 1024) {
+          this.fileSizeError = true;
+          this.fileState = false;
+        } else {
+          this.fileSizeError = false;
+          this.fileState = true;
+        }
+      }
+    },
+    fileType(event) {
+      const file = event.target.files[0];
+      console.log(file);
+      if (file && file.type !== "image/png") {
+        console.log("entro a type");
+        this.fileTypeError = true;
+        this.fileState = false;
+      } else {
+        this.fileTypeError = false;
+        this.fileState = true;
+      }
+    },
+    handleFile(event) {
+      const file = event.target.files[0];
+      if (!file) {
+        this.noneFileError = true;
+        this.fileState = false;
+      } else {
+        this.noneFileError = false;
+        this.fileState = true;
+      }
+      this.fileSize(event);
+      this.fileType(event);
     },
   },
   validations() {
