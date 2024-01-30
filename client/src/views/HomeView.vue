@@ -19,7 +19,7 @@ export default Vue.extend({
         <side-bar />
       </b-col>
       <b-col cols="12" sm="12" md="9" class="mt-3">
-        <div class="mb-3"><h3>Contenido principal</h3></div>
+        <div class="mb-3"><h3>Formulario</h3></div>
         <router-view></router-view>
       </b-col>
     </b-row>
