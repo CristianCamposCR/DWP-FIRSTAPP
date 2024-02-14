@@ -1,6 +1,10 @@
 import Vue from "vue";
 import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import Vuelidate from "vuelidate";
+import VueSweetalert2 from 'vue-sweetalert2';
+
+// If you don't need the styles, do not connect
+import 'sweetalert2/dist/sweetalert2.min.css';
 
 
 // Import Bootstrap and BootstrapVue CSS files (order is important)
@@ -13,6 +17,8 @@ Vue.use(BootstrapVue);
 Vue.use(IconsPlugin);
 //validaciones
 Vue.use(Vuelidate);
+Vue.use(VueSweetalert2);
+
 
 import App from "./App.vue";
 import router from "./router";

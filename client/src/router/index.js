@@ -13,7 +13,7 @@ const router = new VueRouter({
       path: "/",
       name: "home",
       component: HomeView,
-      redirect: "form-validation",
+      redirect: "movies",
       children: [
         {
           path: "/land-page",
@@ -54,6 +54,11 @@ const router = new VueRouter({
           path: "/form-validation",
           name: "FormValidation",
           component: () => import("../views/FormValidation.vue"),
+        },
+        {
+          path: "/movies",
+          name: "Movies",
+          component: () => import("../views/Movies.vue"),
         },
       ],
     },
